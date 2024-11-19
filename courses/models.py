@@ -10,4 +10,4 @@ class Course(models.Model):
 class Enrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    enrolled_date = models.DateTimeField(auto_now_add=True)
+    enrolled_at = models.DateTimeField(auto_now_add=True)

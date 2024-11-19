@@ -141,15 +141,15 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'EXCEPTION_HANDLER': 'users.exception.custom_exception_handler',  # Correct path
 }
 
-SIMPLE_JWT = {
-    'AUTH_HEADER_TYPES': ('Bearer',),
-}
 
 DJOSER = {
-    'USER_ID_FIELD': 'username',
-    'LOGIN_FIELD': 'email',
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.CustomUserCreateSerializer',  # Override default user create
+    },
+
 }
 LOGGING = {
     'version': 1,
