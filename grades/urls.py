@@ -1,7 +1,6 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views import GradeViewSet
 
-router = DefaultRouter()
-router.register('grades', GradeViewSet)
-
-urlpatterns = router.urls
+urlpatterns = [
+    path('', GradeViewSet.as_view(), name='grade-list'),
+]

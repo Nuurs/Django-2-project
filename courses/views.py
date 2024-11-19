@@ -3,11 +3,17 @@ from rest_framework.permissions import IsAuthenticated
 from .models import Course, Enrollment
 from .serializers import CourseSerializer, EnrollmentSerializer
 from users.permission import IsTeacher, IsAdmin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+from rest_framework import generics
 
-class CourseViewSet(viewsets.ModelViewSet):
+class CourseViewSet(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated, IsTeacher | IsAdmin]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['instructor']
+    search_fields = ['name', 'description']
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all()

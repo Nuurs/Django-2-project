@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'grades',
     'attendance',
     'notifications',
+    'django_celery_beat'
 ]
 
 
@@ -141,7 +142,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    'EXCEPTION_HANDLER': 'users.exception.custom_exception_handler',  # Correct path
+    'EXCEPTION_HANDLER': 'users.exception.custom_exception_handler',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,  
 }
 
 
@@ -178,7 +181,18 @@ CACHES = {
    }
 }
 
+# Redis as Celery broker
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+# Results backend (optional)
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+# Task serialization
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# Timezone
+CELERY_TIMEZONE = 'UTC'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

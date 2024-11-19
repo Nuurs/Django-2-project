@@ -1,9 +1,7 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 from .views import CourseViewSet, EnrollmentViewSet
 
-router = DefaultRouter()
-router.register('courses', CourseViewSet)
-router.register('enrollments', EnrollmentViewSet)
-
-urlpatterns = router.urls
-    
+urlpatterns = [
+    path('', CourseViewSet.as_view(), name='course-list'),
+    path('enroll/', EnrollmentViewSet.as_view(), name='enroll-student'),
+]
