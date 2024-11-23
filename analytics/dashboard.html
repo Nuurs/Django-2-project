@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        .table-container {
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="my-4 text-center">Analytics Dashboard</h1>
+
+    <div class="table-container">
+        <h3 class="mb-3">Active Users</h3>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Request Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in active_users %}
+                <tr>
+                    <td>{{ user.user }}</td>
+                    <td>{{ user.request_count }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No active users found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Optionally, add more analytics data here -->
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

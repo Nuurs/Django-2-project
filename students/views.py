@@ -6,6 +6,11 @@ from users.permission import IsStudent, IsAdmin, IsTeacher
 from rest_framework import generics, permissions
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from rest_framework.decorators import api_view
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.response import Response
+from .decorators import track_api_usage 
+
 
 
 class StudentDetailView(generics.RetrieveUpdateAPIView):
@@ -49,3 +54,20 @@ class StudentListView(generics.ListCreateAPIView):
                 enrollment__course__instructor=user
             ).distinct()
         return super().get_queryset()  # Admins see all students
+    
+
+@swagger_auto_schema(operation_description="Get all students")
+@api_view(['GET'])
+@track_api_usage 
+def get_students(request):
+    students = Student.objects.all()  # Get all students from the database
+    student_data = [
+        {
+            "id": student.id,
+            "name": student.name,
+            "email": student.email,
+            # Add any other fields you need here
+        }
+        for student in students
+    ]
+    return Response(student_data)

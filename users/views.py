@@ -6,6 +6,10 @@ from .serializers import RegisterSerializer, ProfileSerializer
 from .models import Profile
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import CustomTokenObtainPairSerializer
+from django.shortcuts import render
+from .models import ApiRequest
+from django.db.models import Count 
+
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
@@ -44,3 +48,12 @@ class ProfileDetailView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+def active_users_view(request):
+    # Get the most active users
+    active_users = ApiRequest.objects.values('user').annotate(request_count=Count('id')).order_by('-request_count')
+    
+    # Pass the result to a template or return as JSON
+    return render(request, 'analytics/active_users.html', {'active_users': active_users})
